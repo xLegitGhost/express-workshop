@@ -10,9 +10,21 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon index"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/xLegitGhost/express-workshop.git"
+  },
+  "bugs": {
+    "url": "https://github.com/xLegitGhost/express-workshop/issues"
+  },
+  "homepage": "https://github.com/xLegitGhost/express-workshop#readme",
   "dependencies": {
     "express": "^5.2.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
   }
 }
