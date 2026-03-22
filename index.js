@@ -4,11 +4,14 @@ import pokedex from './pokedex.json' with { type: 'json' };
 const app = express();
 const { pokemon } = pokedex; 
 
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 app.get('/', (req, res) => {
     return res.send('Welcome to the Pokemon API').status(200);
 });
 
-app.get('/pokemon/all', (req, res) => {
+app.get('/pokemon', (req, res) => {
     return res.send(pokemon).status(200);
 });
 
@@ -34,3 +37,8 @@ app.get('/pokemon/:name', (req, res) => {
 app.listen(3000, () => {
     console.log('Server is running on port 3000');
 });
+
+
+
+
+
