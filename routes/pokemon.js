@@ -5,6 +5,7 @@ const pokedexJson = pokedex.pokemon;
 export const pokemonRoute = express.Router();
 
 pokemonRoute.post("/", (req, res) => {
+    const test = "a";
     return res.status(200).send(req.body);
 })
 
