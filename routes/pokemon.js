@@ -16,18 +16,19 @@ pokemonRoute.get('/', async (req, res) => {
 pokemonRoute.get(/^\/pokemon\/([0-9]{1,3})$/, async (req, res) => {
     const id = req.params[0] - 1;
     if ( id >= 0 && id <= 151) {
-        return res.send(pokedexJson[id]).status(200);
+        const queryResult = await pool.query('SELECT * FROM pokemon WHERE id = ?', [id + 1]);
+        return res.send(queryResult[0]).status(200);
     }else{
         return res.send('Not found').status(404);
     }
 })
 
-pokemonRoute.get('/:name', (req, res) => {
+pokemonRoute.get('/:name', async (req, res) => {
   const name = req.params.name;
 
-    const pokemonData = pokedexJson.find(p => p.name.toLowerCase() === name.toLowerCase());
-    if(!pokemonData) return res.status(404).send('Not found');
+    const queryResult = await pool.query('SELECT * FROM pokemon WHERE name = ?', [name]);
+    if(!queryResult[0]) return res.status(404).send('Not found');
 
-    return res.send(pokemonData).status(200);
+    return res.send(queryResult[0]).status(200);
   
 }); 
