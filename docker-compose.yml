@@ -7,7 +7,9 @@ services:
     restart: always
     environment:
       MARIADB_ROOT_PASSWORD: root
-      MARIADB_DATABASE: mi_api_db
+      MARIADB_DATABASE: pokemon
+      MARIADB_USER: lghost
+      MARIADB_PASSWORD: user
     ports:
       - "3306:3306"
     volumes:
