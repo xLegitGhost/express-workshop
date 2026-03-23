@@ -1,6 +1,5 @@
 import express from "express"
-import pokedex from '../pokedex.json' with { type: 'json' };
-const pokedexJson = pokedex.pokemon; 
+import pool from "../config/database.js";   
 
 export const pokemonRoute = express.Router();
 
@@ -9,11 +8,12 @@ pokemonRoute.post("/", (req, res) => {
     return res.status(200).send(req.body);
 })
 
-pokemonRoute.get('/', (req, res) => {
-  return res.send(pokedexJson).status(200);
+pokemonRoute.get('/', async (req, res) => {
+    const queryResult = await pool.query('SELECT * FROM pokemon');
+    return res.send(queryResult).status(200);
 });
 
-pokemonRoute.get(/^\/pokemon\/([0-9]{1,3})$/, (req, res) => {
+pokemonRoute.get(/^\/pokemon\/([0-9]{1,3})$/, async (req, res) => {
     const id = req.params[0] - 1;
     if ( id >= 0 && id <= 151) {
         return res.send(pokedexJson[id]).status(200);
