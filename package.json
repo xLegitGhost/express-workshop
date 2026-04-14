@@ -11,7 +11,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon index"
+    "dev": "nodemon index",
+    "test-db": "node scripts/test-db.js",
+    "inspect-db": "node scripts/inspect-db.js"
   },
   "repository": {
     "type": "git",
