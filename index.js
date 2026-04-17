@@ -1,6 +1,7 @@
 import express from 'express';
 import morgan from "morgan";
 import { pokemonRoute } from './routes/pokemon.js';
+import { userRoute } from './routes/user.js';
 
 const app = express();
 
@@ -16,6 +17,7 @@ app.get('/', (req, res, next) => {
 });
 
 app.use("/pokemon", pokemonRoute)
+app.use("/user", userRoute)
 
 app.use((req, res, next) => {
     return res.status(404).json({
