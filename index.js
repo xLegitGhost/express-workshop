@@ -1,7 +1,13 @@
 import express from 'express';
 import morgan from "morgan";
+import jwt from 'jsonwebtoken';
+
+// Routes
 import { pokemonRoute } from './routes/pokemon.js';
 import { userRoute } from './routes/user.js';
+
+// Middleware
+import { notFoundMiddleware } from './middleware/notFound.js';
 
 const app = express();
 
@@ -16,15 +22,12 @@ app.get('/', (req, res, next) => {
     });
 });
 
-app.use("/pokemon", pokemonRoute)
-app.use("/user", userRoute)
+app.use("/user", userRoute);
 
-app.use((req, res, next) => {
-    return res.status(404).json({
-        code: 404,
-        message: "URL no encontrada"
-    });
-});
+app.use("/pokemon", pokemonRoute)
+
+
+app.use(notFoundMiddleware);
 
 app.listen(3000, () => {
     console.log('Server is running on port 3000');

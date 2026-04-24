@@ -1,16 +1,17 @@
 import express from 'express';
 import db from '../config/database.js';
 import jwt from 'jsonwebtoken';
+import { authMiddleware } from '../middleware/auth.js';
 
 export const userRoute = express.Router();
 
-userRoute.get("/", async (req, res) => {
+userRoute.get("/", authMiddleware, async (req, res) => {
     const query = "SELECT * FROM user";
     const [rows] = await db.query(query);
     return res.status(200).json({ code: 200, data: rows });
 });
 
-userRoute.post("/", async (req, res) => {
+userRoute.post("/signin", async (req, res) => {
     const { user_name, user_mail, user_password } = req.body;
 
     if (!user_name || !user_mail || !user_password) return res.status(400).json({ code: 400, error: "Bad request, missing required fields" });

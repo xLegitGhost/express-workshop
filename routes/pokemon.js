@@ -1,9 +1,10 @@
 import express from "express"
 import db from "../config/database.js";   
+import { authMiddleware } from "../middleware/auth.js";
 
 export const pokemonRoute = express.Router();
 
-pokemonRoute.post("/", async (req, res) => {
+pokemonRoute.post("/", authMiddleware, async (req, res) => {
     const { pok_name, pok_height, pok_weight, pok_base_experience } = req.body;
 
     if(!pok_name || !pok_height || !pok_weight || !pok_base_experience) {
@@ -20,7 +21,7 @@ pokemonRoute.post("/", async (req, res) => {
     return res.status(201).json({code: 201, message: 'Pokemon insertado correctamente'});
 })
 
-pokemonRoute.delete('/:id', async (req, res) => {
+pokemonRoute.delete('/:id', authMiddleware, async (req, res) => {
     const id = Number(req.params.id);
     
     // Primero intenta eliminar por ID
@@ -44,7 +45,7 @@ pokemonRoute.delete('/:id', async (req, res) => {
     return res.status(200).json({code: 200, message: 'Pokemon eliminado correctamente'});
 });
 
-pokemonRoute.put(/^\/([0-9]+)$/, async (req, res) => {
+pokemonRoute.put(/^\/([0-9]+)$/, authMiddleware, async (req, res) => {
     const id = Number(req.params[0]);
     if (!Number.isInteger(id) || id < 1) {
         return res.status(404).json({code: 404, error: 'No se encontró el pokemon' });
@@ -62,7 +63,7 @@ pokemonRoute.put(/^\/([0-9]+)$/, async (req, res) => {
     return res.status(200).json({code: 200, message: 'Pokemon actualizado correctamente'});
 });
 
-pokemonRoute.patch(/^\/([0-9]+)$/, async (req, res) => {
+pokemonRoute.patch(/^\/([0-9]+)$/, authMiddleware, async (req, res) => {
     const id = Number(req.params[0]);
     if(!req.body.pok_name) return res.status(400).json({code: 400, error: "Bad request, missing required field pok_name"});
     if (!Number.isInteger(id) || id < 1) {
@@ -75,12 +76,12 @@ pokemonRoute.patch(/^\/([0-9]+)$/, async (req, res) => {
     return res.status(200).json({code: 200, message: 'Pokemon actualizado correctamente'});
 });
 
-pokemonRoute.get('/', async (req, res) => {
+pokemonRoute.get('/', authMiddleware, async (req, res) => {
     const [rows] = await db.query('SELECT * FROM pokemon');
     return res.status(200).json({code: 200, data: rows});
 });
 
-pokemonRoute.get('/:id', async (req, res) => {
+pokemonRoute.get('/:id', authMiddleware, async (req, res) => {
     const id = Number(req.params.id);
     if (Number.isInteger(id) && id > 0) {
         const [rows] = await db.query('SELECT * FROM pokemon WHERE pok_id = ?', [id]);
