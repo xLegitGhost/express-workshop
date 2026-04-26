@@ -33,7 +33,7 @@ userRoute.post("/login", async (req, res) => {
     const [rows] = await db.query(query, [user_mail, user_password]);
 
     if (rows.length === 0) {
-        return res.status(200).json({ code: 200, error: "Invalid email or password" });
+        return res.status(200).json({ code: 401, error: "Invalid email or password" });
     }
 
     const token = jwt.sign(
