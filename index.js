@@ -8,9 +8,11 @@ import { userRoute } from './routes/user.js';
 
 // Middleware
 import { notFoundMiddleware } from './middleware/notFound.js';
+import { corsMiddleware } from './middleware/cors.js';
 
 const app = express();
 
+app.use(corsMiddleware);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(morgan("dev"));
